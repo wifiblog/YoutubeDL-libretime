@@ -1,0 +1,59 @@
+Veuillez ne pas oublier que le fichier YT.php n'est pas protégé, il reste une vulnérabilité, je vous conseil de le renomer en modifiant l'appel dans le script de la page index.phtml .
+
+Merci à https://github.com/ghost pour son script posté ici :
+https://github.com/LibreTime/libretime/issues/181
+
+Installer "Youtube-dl" :
+https://doc.ubuntu-fr.org/youtube-dl
+
+L'utilisateur www-date doit être autoriser à utiliser :
+- import-folder-of-tracks.sh 
+- youtube-dl
+
+Placer le dossier youtube-airtime dans php\airtime_mvc\public\
+
+Autoriser l'execution de :
+- import_a_track.sh
+- import-folder-of-tracks.sh
+
+Ajouter à la ligne 17 dans php\airtime_mvc\application\views\scripts\plupload\index.phtml :
+
+<script>
+function addurlyoutube()
+      {
+      divform=document.getElementById("divdownyoutubeform");
+      diviframe=document.getElementById("divdownyoutube");
+      iframeyt=document.getElementById("framedownyoutube");
+      inputurlyt=document.getElementById("youtubeurladd");
+      if(inputurlyt.value=="") 
+        {
+        alert("Veuillez indiquer une url youtube");
+        return false;
+        }
+      urlyt=inputurlyt.value;
+      //inputurlyt.value="";
+      divform.style.display="non";
+      iframeyt.src="YT.php?url="+urlyt;
+      diviframe.style.display="block";
+      }
+    function addurlyoutubetermine()
+      {
+      divform=document.getElementById("divdownyoutubeform");
+      diviframe=document.getElementById("divdownyoutube");
+      iframeyt=document.getElementById("framedownyoutube");
+      inputurlyt=document.getElementById("youtubeurladd");
+      if(iframeyt.src!="") alert('Terminé');
+      inputurlyt.value="";
+      divform.style.display="block";
+      diviframe.style.display="none";      
+      //iframeyt.src="YT.php?url="+urlyt;
+      }
+</script>
+<H2>Upload Youtube Url</H2>
+<div style="display:block" id=divdownyoutubeform >
+   Url : <input type="text" value="" id=youtubeurladd style="width:380px" >
+   <button onclick="addurlyoutube();" >Ajouter</button>
+</div>
+<div style="display:none" id=divdownyoutube ><iframe id=framedownyoutube url="" onload="addurlyoutubetermine();" scrolling="no" style="background: white; width: 100%; height: 124px;" ></iframe></div>
+        
+
